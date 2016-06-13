@@ -1,0 +1,46 @@
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<html>
+<div id="side_bar"></div><div id="detail_container"></div>
+<script type="text/javascript" src="clients.json"></script>
+<body>
+<script>
+var clientInfo = [];    
+
+    /* Use Synchronous ajax call to get the JSON clients data and store into a variable for later use  */
+ $.ajax({    
+    url: "clients.json",
+    dataType: 'json',
+    async: false,
+    success:function(result){
+        clientInfo =result;
+    }
+    });
+
+    /* Called to display the side bar mini info. */
+    function displayData()
+    {
+        for(var i =0; i<clientInfo.length; i++)
+        {
+        $("#side_bar").append("<div class='side_bar_container' onclick='showDetails("+i+")'><img src='"+clientInfo[i].general.avatar
+                              +"'><div class='side_bar_Name'>"+clientInfo[i].general.firstName+" "+clientInfo[i].general.lastName
+                              +"</div><div class='side_bar_Title'>"+clientInfo[i].job.title+"</div></div>");
+        }
+   
+    }
+    /* Once a sidebar option is clicked load the detail_container with the information of the client clicked*/
+    function showDetails(i)
+    {
+        $("#detail_container").html("<div class ='detail_frame'><img src='"+clientInfo[i].general.avatar+"'><div class ='client_container_Name'>"
+                               +clientInfo[i].general.firstName+" "+clientInfo[i].general.lastName+"</div>"
+                               +"<br>"+clientInfo[i].job.title+" at  "+clientInfo[i].job.company 
+                               +"<br>Email Address: "+clientInfo[i].contact.email
+                               +"<br>Phone Number: "+clientInfo[i].contact.phone
+                               +"<br>Address: "+clientInfo[i].address.street+", "+clientInfo[i].address.city+", "+clientInfo[i].address.zipCode+", "+clientInfo[i].address.country+"</div>");
+        
+    }
+    displayData();
+
+</script>
+</body>
+</html>
